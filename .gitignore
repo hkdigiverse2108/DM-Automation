@@ -45,3 +45,5 @@ next-env.d.ts
 !.gg/commands/
 .gg/commands/*
 !.gg/commands/setup-railway.md
+
+package-lock.json

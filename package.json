@@ -7,7 +7,7 @@
 		"dev": "concurrently -n next,inngest -c blue,magenta \"next dev\" \"npx inngest-cli@latest dev -u http://localhost:3000/api/inngest\"",
 		"dev:next": "next dev",
 		"build": "next build",
-		"start": "next start",
+		"start": "next build && next start",
 		"lint": "biome check",
 		"test": "vitest run",
 		"test:watch": "vitest",
