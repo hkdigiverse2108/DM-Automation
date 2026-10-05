@@ -1,0 +1,72 @@
+"use client";
+
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export default function LoginPage() {
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState<string | null>(null);
+	const [submitting, setSubmitting] = useState(false);
+
+	async function submit(e: React.FormEvent) {
+		e.preventDefault();
+		setSubmitting(true);
+		setError(null);
+		try {
+			const res = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ password }),
+			});
+			const json = await res.json().catch(() => ({}));
+			if (!res.ok) throw new Error(json.error ?? "Login failed");
+			// Always land on the dashboard after a successful login.
+			window.location.href = "/";
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Login failed");
+			setSubmitting(false);
+		}
+	}
+
+	return (
+		<div className="flex min-h-dvh items-center justify-center py-12">
+			<Card className="glass-hover w-full max-w-sm">
+				<CardHeader>
+					<CardTitle>
+						Sign in to{" "}
+						<span className="brand-shimmer font-display font-bold">
+							Oh Daddy
+						</span>
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<form onSubmit={submit} className="space-y-4">
+						<div className="flex flex-col gap-2.5">
+							<Label htmlFor="password">Admin password</Label>
+							<Input
+								id="password"
+								type="password"
+								autoComplete="current-password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								placeholder="••••••••"
+								autoFocus
+							/>
+						</div>
+						{error && <p className="text-sm text-destructive">{error}</p>}
+						<Button type="submit" disabled={submitting} className="w-full">
+							{submitting ? "Signing in…" : "Oh yeah daddy"}
+						</Button>
+						<p className="text-xs text-muted-foreground">
+							Authenticated personnel only.
+						</p>
+					</form>
+				</CardContent>
+			</Card>
+		</div>
+	);
+}
