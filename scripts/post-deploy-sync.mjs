@@ -41,7 +41,9 @@ if (!appUrl) {
 	process.exit(0);
 }
 
-const port = process.env.PORT || "3000";
+import { resolvePort } from "./resolve-port.mjs";
+
+const port = resolvePort();
 const healthEndpoint = `http://127.0.0.1:${port}/api/inngest`;
 const registrationEndpoint = `${appUrl.replace(/\/$/, "")}/api/inngest`;
 const DEADLINE = Date.now() + 180_000; // up to 3 min for the app to come up

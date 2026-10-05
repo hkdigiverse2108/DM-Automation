@@ -4,10 +4,10 @@
 	"private": true,
 	"license": "AGPL-3.0-or-later",
 	"scripts": {
-		"dev": "concurrently -n next,inngest -c blue,magenta \"next dev\" \"npx inngest-cli@latest dev -u http://localhost:3000/api/inngest\"",
-		"dev:next": "next dev",
+		"dev": "node scripts/dev.mjs",
+		"dev:next": "node scripts/dev.mjs --next-only",
 		"build": "next build",
-		"start": "next build && next start",
+		"start": "next build && node scripts/start.mjs",
 		"lint": "biome check",
 		"test": "vitest run",
 		"test:watch": "vitest",
