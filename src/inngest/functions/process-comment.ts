@@ -23,7 +23,7 @@ export const processComment = inngest.createFunction(
 		// the downstream `automation-send` function, so only actual Meta sends are
 		// paced — never ingestion. A modest concurrency cap just bounds parallel
 		// DB work; it does not rate-limit per account.
-		concurrency: { limit: 10 },
+		concurrency: { limit: 5 },
 		retries: 3,
 		triggers: [{ event: "comment/process" }],
 	},
